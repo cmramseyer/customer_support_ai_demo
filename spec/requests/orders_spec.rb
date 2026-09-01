@@ -13,6 +13,32 @@ RSpec.describe "Orders", type: :request do
 
   before { sign_in(user) }
 
+  it "lists only the current user's orders" do
+    own_order = Order.create!(product: product, user: user, quantity: 2, payment_method: :credit_card, unit_price: product.price)
+    other_user = User.create!(email: "other@example.com", password: "password", password_confirmation: "password")
+    other_product = Product.create!(name: "Desk lamp", description: "Adjustable LED lamp.", price: 29.99, category: "Office")
+    Order.create!(product: other_product, user: other_user, quantity: 1, payment_method: :cash, unit_price: other_product.price)
+
+    get orders_path
+
+    expect(response).to have_http_status(:ok)
+    expect(response.body).to include(own_order.product.name, "2 x 89.99 - Credit card", "Orders")
+    expect(response.body).not_to include(other_product.name)
+  end
+
+  it "shows an empty state when the current user has no orders" do
+    get orders_path
+
+    expect(response).to have_http_status(:ok)
+    expect(response.body).to include("No orders yet", "Your purchases will appear here")
+  end
+
+  it "shows an Orders link in the authenticated navigation" do
+    get products_path
+
+    expect(response.body).to include("href=\"/orders\"", ">Orders</a>")
+  end
+
   it "renders a purchase modal for each product" do
     product
 

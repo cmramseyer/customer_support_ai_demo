@@ -184,13 +184,49 @@ h2 {
 
 .empty-state,
 .form-page,
-.product-detail {
+.product-detail,
+.orders-page {
   max-width: 48rem;
   padding: clamp(1.5rem, 5vw, 3rem);
 }
 
 .empty-state {
   text-align: center;
+}
+
+.orders-list {
+  display: grid;
+  gap: 1rem;
+}
+
+.order-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 1.25rem;
+  border: 1px solid #d9d7ce;
+  border-radius: 0.75rem;
+  background: rgb(255 255 255 / 0.78);
+  box-shadow: 0 1rem 2.5rem rgb(39 53 43 / 0.08);
+}
+
+.order-card h2 {
+  margin-bottom: 0.5rem;
+}
+
+.order-card h2 a {
+  text-decoration: none;
+}
+
+.order-card__details,
+.order-card time {
+  margin: 0;
+  color: #56635b;
+}
+
+.order-card time {
+  white-space: nowrap;
 }
 
 .product-detail__heading {
@@ -379,7 +415,9 @@ h2 {
 
   .products-header,
   .page-actions,
-  .comments__heading {
+  .comments__heading,
+  .account-nav,
+  .order-card {
     align-items: stretch;
     flex-direction: column;
   }

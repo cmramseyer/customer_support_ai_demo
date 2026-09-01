@@ -1,5 +1,9 @@
 class OrdersController < ApplicationController
-  before_action :set_product
+  before_action :set_product, only: :create
+
+  def index
+    @orders = current_user.orders.includes(:product).order(created_at: :desc)
+  end
 
   def create
     @order = current_user.orders.build(order_params.merge(product: @product, unit_price: @product.price, status: :pending))

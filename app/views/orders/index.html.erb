@@ -1,0 +1,34 @@
+<% content_for :title, "Orders" %>
+
+<section class="orders-page">
+  <div class="products-header">
+    <div>
+      <p class="eyebrow">Purchase history</p>
+      <h1>Orders</h1>
+      <p class="lede">Review the purchases made from your account.</p>
+    </div>
+    <%= link_to "Back to products", products_path, class: "button button--secondary" %>
+  </div>
+
+  <% if @orders.any? %>
+    <div class="orders-list">
+      <% @orders.each do |order| %>
+        <article class="order-card">
+          <div>
+            <p class="eyebrow"><%= order.status.humanize %></p>
+            <h2><%= link_to order.product.name, order.product %></h2>
+            <p class="order-card__details"><%= order.quantity %> x <%= number_with_precision(order.unit_price, precision: 2) %> - <%= order.payment_method.humanize %></p>
+          </div>
+          <time datetime="<%= order.created_at.iso8601 %>"><%= order.created_at.strftime("%m/%d/%y %H:%M") %></time>
+        </article>
+      <% end %>
+    </div>
+  <% else %>
+    <section class="empty-state">
+      <p class="eyebrow">No orders yet</p>
+      <h2>Your purchases will appear here</h2>
+      <p>Browse the catalog to place your first order.</p>
+      <%= link_to "Browse products", products_path, class: "button" %>
+    </section>
+  <% end %>
+</section>
