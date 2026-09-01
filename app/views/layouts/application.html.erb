@@ -28,8 +28,14 @@
       <nav class="account-nav" aria-label="Account">
         <% if user_signed_in? %>
           <span><%= current_user.email %></span>
-          <%= link_to "Orders", orders_path, class: "button button--secondary" %>
-          <%= button_to "Sign out", destroy_user_session_path, method: :delete, class: "button button--secondary" %>
+          <% unless current_user.is_admin? %>
+            <%= link_to "Orders", orders_path, class: "button button--secondary" %>
+          <% end %>
+          <% if current_user.is_admin? %>
+            <%= link_to "Support Tickets", support_tickets_path, class: "button button--secondary" %>
+            <%= link_to "Knowledge Base", knowledge_base_documents_path, class: "button button--secondary" %>
+          <% end %>
+           <%= button_to "Sign out", destroy_user_session_path, method: :delete, class: "button button--secondary" %>
         <% else %>
           <%= link_to "Sign in", new_user_session_path, class: "text-link" %>
           <%= link_to "Sign up", new_user_registration_path, class: "button" %>

@@ -1,0 +1,27 @@
+<%= form_with model: knowledge_base_document, class: "product-form" do |form| %>
+  <% if knowledge_base_document.errors.any? %>
+    <section class="form-errors" aria-labelledby="error-heading">
+      <h2 id="error-heading"><%= pluralize(knowledge_base_document.errors.count, "error") %> prevented this document from being saved</h2>
+      <ul>
+        <% knowledge_base_document.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </section>
+  <% end %>
+
+  <div class="field">
+    <%= form.label :title %>
+    <%= form.text_field :title, required: true, autofocus: true %>
+  </div>
+
+  <div class="field">
+    <%= form.label :content %>
+    <%= form.text_area :content, rows: 12, required: true %>
+  </div>
+
+  <div class="page-actions">
+    <%= link_to "Cancel", knowledge_base_documents_path, class: "button button--secondary" %>
+    <%= form.submit "Create document", class: "button" %>
+  </div>
+<% end %>

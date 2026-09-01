@@ -1,0 +1,32 @@
+<% content_for :title, "Support Tickets" %>
+
+<section class="orders-page">
+  <div class="products-header">
+    <div>
+      <p class="eyebrow">Administration</p>
+      <h1>Support Tickets</h1>
+      <p class="lede">Review every support ticket created by customers.</p>
+    </div>
+  </div>
+
+  <% if @support_tickets.any? %>
+    <div class="orders-list">
+      <% @support_tickets.each do |support_ticket| %>
+        <article class="order-card">
+          <div>
+            <p class="eyebrow">Ticket #<%= support_ticket.id %></p>
+            <h2>Order #<%= support_ticket.order_id %></h2>
+            <p class="order-card__details"><%= support_ticket.comment %></p>
+          </div>
+          <p class="order-card__details"><%= support_ticket.status.humanize %></p>
+        </article>
+      <% end %>
+    </div>
+  <% else %>
+    <section class="empty-state">
+      <p class="eyebrow">No tickets yet</p>
+      <h2>Customer support is quiet</h2>
+      <p>New support tickets will appear here.</p>
+    </section>
+  <% end %>
+</section>

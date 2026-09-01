@@ -36,4 +36,28 @@ RSpec.describe "SupportTickets", type: :request do
 
     expect(response).to have_http_status(:not_found)
   end
+
+  it "allows an administrator to view every support ticket" do
+    own_ticket = SupportTicket.create!(order: order, comment: "The headset will not connect.")
+    other_user = User.create!(email: "other@example.com", password: "password", password_confirmation: "password")
+    other_order = Order.create!(product: product, user: other_user, quantity: 1, payment_method: :cash, unit_price: product.price)
+    other_ticket = SupportTicket.create!(order: other_order, comment: "The lamp is damaged.")
+    admin = User.create!(email: "admin@example.com", password: "password", password_confirmation: "password", is_admin: true)
+
+    sign_in(admin)
+    get support_tickets_path
+
+    expect(response).to have_http_status(:ok)
+    expect(response.body).to include("Ticket ##{own_ticket.id}", "Order ##{order.id}", own_ticket.comment, own_ticket.status.humanize)
+    expect(response.body).to include("Ticket ##{other_ticket.id}", "Order ##{other_order.id}", other_ticket.comment, other_ticket.status.humanize)
+    expect(response.body).to include(">Support Tickets</a>")
+    expect(response.body).not_to include(">Orders</a>")
+  end
+
+  it "prevents regular users from viewing support tickets" do
+    get support_tickets_path
+
+    expect(response).to redirect_to(products_path)
+    expect(flash[:alert]).to eq("You are not authorized to perform this action.")
+  end
 end

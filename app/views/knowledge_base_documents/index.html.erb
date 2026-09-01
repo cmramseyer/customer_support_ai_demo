@@ -1,0 +1,33 @@
+<% content_for :title, "Knowledge Base" %>
+
+<section class="orders-page">
+  <div class="products-header">
+    <div>
+      <p class="eyebrow">Administration</p>
+      <h1>Knowledge Base</h1>
+      <p class="lede">Manage the company knowledge that will later power support answers.</p>
+    </div>
+    <%= link_to "New", new_knowledge_base_document_path, class: "button" %>
+  </div>
+
+  <% if @knowledge_base_documents.any? %>
+    <div class="orders-list">
+      <% @knowledge_base_documents.each do |knowledge_base_document| %>
+        <article class="order-card">
+          <div>
+            <p class="eyebrow">Document #<%= knowledge_base_document.id %></p>
+            <h2><%= knowledge_base_document.title %></h2>
+            <div class="order-card__details"><%= simple_format(knowledge_base_document.content) %></div>
+          </div>
+        </article>
+      <% end %>
+    </div>
+  <% else %>
+    <section class="empty-state">
+      <p class="eyebrow">No documents yet</p>
+      <h2>Build the knowledge base</h2>
+      <p>Create the first document for your support team.</p>
+      <%= link_to "New", new_knowledge_base_document_path, class: "button" %>
+    </section>
+  <% end %>
+</section>

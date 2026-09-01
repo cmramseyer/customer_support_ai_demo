@@ -1,8 +1,16 @@
 class SupportTicketsController < ApplicationController
-  before_action :set_order
+  before_action :set_order, only: :create
+  after_action :verify_authorized
+  after_action :verify_policy_scoped, only: :index
+
+  def index
+    authorize SupportTicket
+    @support_tickets = policy_scope(SupportTicket).includes(:order).order(created_at: :desc)
+  end
 
   def create
     @support_ticket = @order.support_tickets.build(support_ticket_params)
+    authorize @support_ticket
 
     if @support_ticket.save
       respond_to do |format|

@@ -3,4 +3,6 @@ class User < ApplicationRecord
 
   has_many :orders, dependent: :restrict_with_error
   has_many :comments, dependent: :destroy
+
+  validates :is_admin, inclusion: { in: [ true, false ] }
 end

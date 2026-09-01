@@ -17,5 +17,7 @@ Rails.application.routes.draw do
   resources :orders, only: :index do
     resources :support_tickets, only: :create
   end
+  resources :support_tickets, only: :index
+  resources :knowledge_base_documents, only: %i[index new create]
   root "products#index"
 end

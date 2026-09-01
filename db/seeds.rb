@@ -9,3 +9,6 @@
   user = User.find_or_initialize_by(email: email)
   user.update!(password: "demodemo", password_confirmation: "demodemo")
 end
+
+admin = User.find_or_initialize_by(email: "admin@demo.com")
+admin.update!(password: "demodemo", password_confirmation: "demodemo", is_admin: true)
