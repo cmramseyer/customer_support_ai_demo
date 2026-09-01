@@ -1,0 +1,7 @@
+<article class="comment">
+  <header class="comment__header">
+    <strong><%= comment.user.email %></strong>
+    <time datetime="<%= comment.created_at.iso8601 %>"><%= comment.created_at.strftime("%m/%d/%y %H:%M") %></time>
+  </header>
+  <div class="comment__body"><%= simple_format(comment.body) %></div>
+</article>

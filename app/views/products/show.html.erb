@@ -12,6 +12,26 @@
     <%= simple_format(@product.description) %>
   </div>
 
+  <section class="comments" data-controller="comment-form" aria-labelledby="comments-heading">
+    <div class="comments__heading">
+      <h2 id="comments-heading">Comments</h2>
+      <p>Add context or feedback for this product.</p>
+    </div>
+
+    <div class="comments__list" data-comment-form-target="list">
+      <%= render @comments %>
+    </div>
+
+    <%= form_with model: [@product, @comment], class: "comments__form", data: { action: "submit->comment-form#submit", comment_form_target: "form" } do |form| %>
+      <div class="field">
+        <%= form.label :body, "New comment" %>
+        <%= form.text_area :body, rows: 4, required: true, data: { comment_form_target: "body" } %>
+      </div>
+      <div class="form-errors" data-comment-form-target="errors" hidden></div>
+      <%= form.submit "Add comment", class: "button" %>
+    <% end %>
+  </section>
+
   <div class="page-actions">
     <%= link_to "Back to products", products_path, class: "button button--secondary" %>
     <%= link_to "Edit", edit_product_path(@product), class: "button" %>

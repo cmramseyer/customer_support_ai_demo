@@ -6,6 +6,8 @@ class ProductsController < ApplicationController
   end
 
   def show
+    @comments = @product.comments.includes(:user).order(:created_at)
+    @comment = Comment.new
   end
 
   def new
