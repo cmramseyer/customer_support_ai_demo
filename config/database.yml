@@ -23,6 +23,8 @@ default: &default
 development:
   <<: *default
   database: customer_support_ai_demo_development
+  username: <%= ENV["CUSTOMER_SUPPORT_AI_DEMO_DATABASE_DEV_USERNAME"] %>
+  password: <%= ENV["CUSTOMER_SUPPORT_AI_DEMO_DATABASE_DEV_PASSWORD"] %>
 
   # The specified database role being used to connect to PostgreSQL.
   # To create additional roles in PostgreSQL see `$ createuser --help`.
@@ -36,11 +38,11 @@ development:
   # Connect on a TCP socket. Omitted by default since the client uses a
   # domain socket that doesn't need configuration. Windows does not have
   # domain sockets, so uncomment these lines.
-  #host: localhost
+  host: localhost
 
   # The TCP port the server listens on. Defaults to 5432.
   # If your server runs on a different port number, change accordingly.
-  #port: 5432
+  port: 5432
 
   # Schema search path. The server defaults to $user,public
   #schema_search_path: myapp,sharedapp,public
