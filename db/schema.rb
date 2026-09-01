@@ -10,9 +10,31 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_09_01_201825) do
+ActiveRecord::Schema[8.1].define(version: 2026_09_01_203601) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
+  enable_extension "vector"
+
+  create_table "knowledge_base_chunks", force: :cascade do |t|
+    t.text "content", null: false
+    t.datetime "created_at", null: false
+    t.vector "embedding", limit: 1536
+    t.bigint "knowledge_base_document_id", null: false
+    t.integer "position", null: false
+    t.integer "token_count", null: false
+    t.datetime "updated_at", null: false
+    t.index ["embedding"], name: "index_knowledge_base_chunks_on_embedding", opclass: :vector_cosine_ops, using: :hnsw
+    t.index ["knowledge_base_document_id", "position"], name: "idx_on_knowledge_base_document_id_position_ce82b0a0a3", unique: true
+    t.index ["knowledge_base_document_id"], name: "index_knowledge_base_chunks_on_knowledge_base_document_id"
+    t.check_constraint "\"position\" >= 0", name: "knowledge_base_chunks_position_nonnegative"
+    t.check_constraint "token_count > 0", name: "knowledge_base_chunks_token_count_positive"
+  end
+
+  create_table "knowledge_base_documents", force: :cascade do |t|
+    t.text "content", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
 
   create_table "products", force: :cascade do |t|
     t.string "category", null: false
@@ -30,4 +52,6 @@ ActiveRecord::Schema[8.1].define(version: 2026_09_01_201825) do
     t.datetime "updated_at", null: false
     t.index ["email"], name: "index_users_on_email", unique: true
   end
+
+  add_foreign_key "knowledge_base_chunks", "knowledge_base_documents"
 end
