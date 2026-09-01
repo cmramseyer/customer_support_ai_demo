@@ -1,6 +1,8 @@
 require "rails_helper"
 
 RSpec.describe "Products", type: :request do
+  let(:user) { User.create!(email: "user@example.com", password: "password", password_confirmation: "password") }
+
   let!(:product) do
     Product.create!(
       name: "Wireless headset",
@@ -17,6 +19,16 @@ RSpec.describe "Products", type: :request do
       price: "29.99",
       category: "Office"
     }
+  end
+
+  before { sign_in(user) }
+
+  it "requires authentication" do
+    sign_out(user)
+
+    get products_path
+
+    expect(response).to redirect_to(new_user_session_path)
   end
 
   it "lists products" do

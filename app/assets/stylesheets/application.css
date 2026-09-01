@@ -74,7 +74,8 @@ h2 {
 
 .products-header,
 .page-actions,
-.product-card__footer {
+.product-card__footer,
+.account-nav {
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -83,6 +84,15 @@ h2 {
 
 .products-header {
   margin-bottom: 2.5rem;
+}
+
+.account-nav {
+  justify-content: flex-end;
+  margin-bottom: 2rem;
+}
+
+.account-nav form {
+  margin: 0;
 }
 
 .button {
