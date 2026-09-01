@@ -8,3 +8,260 @@
  *
  * Consider organizing styles into separate files for maintainability.
  */
+
+:root {
+  color: #17211d;
+  background: #f6f3ec;
+  font-family: Inter, ui-sans-serif, system-ui, sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: radial-gradient(circle at top right, #d8ebd4, transparent 35%), #f6f3ec;
+}
+
+a {
+  color: inherit;
+}
+
+.page-shell {
+  width: min(1120px, calc(100% - 2rem));
+  margin: 0 auto;
+  padding: 4rem 0;
+}
+
+h1,
+h2,
+p {
+  margin-top: 0;
+}
+
+h1,
+h2 {
+  font-family: Georgia, serif;
+  letter-spacing: -0.03em;
+}
+
+h1 {
+  margin-bottom: 0.75rem;
+  font-size: clamp(2.5rem, 6vw, 4.5rem);
+  line-height: 0.95;
+}
+
+h2 {
+  font-size: 1.45rem;
+}
+
+.eyebrow {
+  margin-bottom: 0.5rem;
+  color: #37624c;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.lede {
+  max-width: 42rem;
+  color: #56635b;
+  font-size: 1.1rem;
+  line-height: 1.6;
+}
+
+.products-header,
+.page-actions,
+.product-card__footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.products-header {
+  margin-bottom: 2.5rem;
+}
+
+.button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 2.75rem;
+  padding: 0.7rem 1rem;
+  border: 1px solid #243a2d;
+  border-radius: 0.35rem;
+  background: #243a2d;
+  color: #fff;
+  font: inherit;
+  font-weight: 700;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.button:hover {
+  background: #37624c;
+}
+
+.button--secondary {
+  background: transparent;
+  color: #243a2d;
+}
+
+.button--danger {
+  border-color: #8e2d24;
+  background: #8e2d24;
+}
+
+.product-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 1rem;
+}
+
+.product-card,
+.empty-state,
+.product-detail,
+.form-page {
+  border: 1px solid #d9d7ce;
+  border-radius: 0.75rem;
+  background: rgb(255 255 255 / 0.78);
+  box-shadow: 0 1rem 2.5rem rgb(39 53 43 / 0.08);
+}
+
+.product-card {
+  display: flex;
+  min-height: 15rem;
+  flex-direction: column;
+  padding: 1.5rem;
+}
+
+.product-card h2 {
+  margin-bottom: 0.75rem;
+}
+
+.product-card h2 a {
+  text-decoration: none;
+}
+
+.product-card__category,
+.product-card__description {
+  color: #56635b;
+}
+
+.product-card__category {
+  margin-bottom: 0.75rem;
+  font-size: 0.85rem;
+  font-weight: 700;
+}
+
+.product-card__description {
+  flex: 1;
+  line-height: 1.5;
+}
+
+.text-link {
+  color: #37624c;
+  font-weight: 700;
+}
+
+.empty-state,
+.form-page,
+.product-detail {
+  max-width: 48rem;
+  padding: clamp(1.5rem, 5vw, 3rem);
+}
+
+.empty-state {
+  text-align: center;
+}
+
+.product-detail__heading {
+  padding-bottom: 2rem;
+  border-bottom: 1px solid #d9d7ce;
+}
+
+.product-detail__price {
+  margin: 0;
+  color: #37624c;
+  font-size: 1.5rem;
+  font-weight: 700;
+}
+
+.product-detail__description {
+  padding: 2rem 0;
+  color: #39443d;
+  line-height: 1.6;
+}
+
+.product-form {
+  margin-top: 2rem;
+}
+
+.field {
+  display: grid;
+  gap: 0.45rem;
+  margin-bottom: 1.25rem;
+}
+
+.field label {
+  font-weight: 700;
+}
+
+.field input,
+.field textarea {
+  width: 100%;
+  border: 1px solid #b9c1b9;
+  border-radius: 0.35rem;
+  background: #fff;
+  padding: 0.75rem;
+  color: inherit;
+  font: inherit;
+}
+
+.field input:focus,
+.field textarea:focus {
+  outline: 3px solid rgb(88 137 104 / 0.35);
+  border-color: #37624c;
+}
+
+.form-row {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+.form-errors,
+.flash {
+  margin-bottom: 1.5rem;
+  padding: 1rem;
+  border-radius: 0.35rem;
+}
+
+.form-errors {
+  border-left: 4px solid #8e2d24;
+  background: #fceae7;
+}
+
+.flash {
+  border-left: 4px solid #37624c;
+  background: #e5f1e2;
+}
+
+@media (width <= 640px) {
+  .page-shell {
+    padding: 2rem 0;
+  }
+
+  .products-header,
+  .page-actions {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .form-row {
+    grid-template-columns: 1fr;
+  }
+}

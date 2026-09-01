@@ -1,0 +1,33 @@
+<% content_for :title, "Products" %>
+
+<section class="products-header">
+  <div>
+    <p class="eyebrow">Inventory</p>
+    <h1>Products</h1>
+    <p class="lede">Manage the products available to your support team.</p>
+  </div>
+  <%= link_to "New product", new_product_path, class: "button" %>
+</section>
+
+<% if @products.any? %>
+  <div class="product-grid">
+    <% @products.each do |product| %>
+      <article class="product-card">
+        <p class="product-card__category"><%= product.category %></p>
+        <h2><%= link_to product.name, product %></h2>
+        <p class="product-card__description"><%= truncate(product.description, length: 140) %></p>
+        <div class="product-card__footer">
+          <strong><%= number_with_precision(product.price, precision: 2) %></strong>
+          <%= link_to "View", product, class: "text-link" %>
+        </div>
+      </article>
+    <% end %>
+  </div>
+<% else %>
+  <section class="empty-state">
+    <p class="eyebrow">No products yet</p>
+    <h2>Start your catalog</h2>
+    <p>Create the first product to make it available for your team.</p>
+    <%= link_to "Create product", new_product_path, class: "button" %>
+  </section>
+<% end %>

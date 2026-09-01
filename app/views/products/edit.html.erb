@@ -1,0 +1,9 @@
+<% content_for :title, "Edit #{@product.name}" %>
+
+<section class="form-page">
+  <p class="eyebrow">Catalog</p>
+  <h1>Edit product</h1>
+  <p class="lede">Keep the product information accurate and current.</p>
+
+  <%= render "form", product: @product %>
+</section>

@@ -59,6 +59,10 @@ development:
 test:
   <<: *default
   database: customer_support_ai_demo_test
+  username: <%= ENV["CUSTOMER_SUPPORT_AI_DEMO_DATABASE_TEST_USERNAME"] %>
+  password: <%= ENV["CUSTOMER_SUPPORT_AI_DEMO_DATABASE_TEST_PASSWORD"] %>
+  host: localhost
+  port: 5432
 
 # As with config/credentials.yml, you never want to store sensitive information,
 # like your database password, in your source code. If your source code is

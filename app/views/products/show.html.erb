@@ -1,0 +1,20 @@
+<% content_for :title, @product.name %>
+
+<section class="product-detail">
+  <div class="product-detail__heading">
+    <p class="eyebrow"><%= @product.category %></p>
+    <h1><%= @product.name %></h1>
+    <p class="product-detail__price"><%= number_with_precision(@product.price, precision: 2) %></p>
+  </div>
+
+  <div class="product-detail__description">
+    <h2>Description</h2>
+    <%= simple_format(@product.description) %>
+  </div>
+
+  <div class="page-actions">
+    <%= link_to "Back to products", products_path, class: "button button--secondary" %>
+    <%= link_to "Edit", edit_product_path(@product), class: "button" %>
+    <%= button_to "Delete", @product, method: :delete, class: "button button--danger", form: { data: { turbo_confirm: "Delete this product?" } } %>
+  </div>
+</section>
