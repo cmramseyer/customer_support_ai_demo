@@ -1,0 +1,43 @@
+<div data-controller="purchase-modal" data-purchase-modal-open-value="<%= order.errors.any? %>">
+  <button type="button" class="button" data-purchase-modal-target="trigger" data-action="purchase-modal#open">Buy</button>
+
+  <dialog class="purchase-modal" aria-labelledby="purchase-modal-heading-<%= product.id %>" data-purchase-modal-target="dialog" data-action="click->purchase-modal#closeOnBackdrop">
+    <div class="purchase-modal__content">
+      <div class="purchase-modal__heading">
+        <div>
+          <p class="eyebrow">Purchase</p>
+          <h2 id="purchase-modal-heading-<%= product.id %>">Buy <%= product.name %></h2>
+        </div>
+        <button type="button" class="purchase-modal__close" aria-label="Close purchase dialog" data-action="purchase-modal#close">&times;</button>
+      </div>
+
+      <%= form_with model: [product, order], class: "purchase-form" do |form| %>
+        <% if order.errors.any? %>
+          <section class="form-errors" aria-labelledby="purchase-error-heading">
+            <h3 id="purchase-error-heading"><%= pluralize(order.errors.count, "error") %> prevented this order from being created</h3>
+            <ul>
+              <% order.errors.each do |error| %>
+                <li><%= error.full_message %></li>
+              <% end %>
+            </ul>
+          </section>
+        <% end %>
+
+        <div class="field">
+          <%= form.label :quantity %>
+          <%= form.number_field :quantity, min: 1, max: 99, step: 1, required: true, data: { purchase_modal_target: "quantity" } %>
+        </div>
+
+        <div class="field">
+          <%= form.label :payment_method, "Payment method" %>
+          <%= form.select :payment_method, [["Select payment method", ""], ["Cash", "cash"], ["Credit Card", "credit_card"], ["Gift Card", "gift_card"]], {}, required: true %>
+        </div>
+
+        <div class="page-actions">
+          <button type="button" class="button button--secondary" data-action="purchase-modal#close">Cancel</button>
+          <%= form.submit "Buy!", class: "button" %>
+        </div>
+      <% end %>
+    </div>
+  </dialog>
+</div>

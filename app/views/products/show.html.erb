@@ -34,6 +34,7 @@
 
   <div class="page-actions">
     <%= link_to "Back to products", products_path, class: "button button--secondary" %>
+    <%= render "products/purchase_modal", product: @product, order: @order %>
     <%= link_to "Edit", edit_product_path(@product), class: "button" %>
     <%= button_to "Delete", @product, method: :delete, class: "button button--danger", form: { data: { turbo_confirm: "Delete this product?" } } %>
   </div>

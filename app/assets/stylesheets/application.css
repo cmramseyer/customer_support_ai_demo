@@ -75,6 +75,7 @@ h2 {
 .products-header,
 .page-actions,
 .product-card__footer,
+.product-card__actions,
 .account-nav {
   display: flex;
   align-items: center;
@@ -159,6 +160,10 @@ h2 {
 .product-card__category,
 .product-card__description {
   color: #56635b;
+}
+
+.product-card__actions {
+  justify-content: flex-end;
 }
 
 .product-card__category {
@@ -263,6 +268,55 @@ h2 {
   border-top: 1px solid #d9d7ce;
 }
 
+.purchase-modal {
+  width: min(32rem, calc(100% - 2rem));
+  border: 0;
+  border-radius: 0.75rem;
+  background: transparent;
+  padding: 0;
+  color: inherit;
+}
+
+.purchase-modal::backdrop {
+  background: rgb(23 33 29 / 0.5);
+}
+
+.purchase-modal__content {
+  padding: clamp(1.5rem, 5vw, 2.5rem);
+  border: 1px solid #d9d7ce;
+  border-radius: 0.75rem;
+  background: #f6f3ec;
+  box-shadow: 0 1rem 2.5rem rgb(39 53 43 / 0.2);
+}
+
+.purchase-modal__heading {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.purchase-modal__heading h2 {
+  margin-bottom: 0;
+}
+
+.purchase-modal__close {
+  width: 2.5rem;
+  height: 2.5rem;
+  border: 0;
+  border-radius: 50%;
+  background: transparent;
+  color: #243a2d;
+  font-size: 1.75rem;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.purchase-modal__close:hover {
+  background: #e5f1e2;
+}
+
 .product-form {
   margin-top: 2rem;
 }
@@ -278,7 +332,8 @@ h2 {
 }
 
 .field input,
-.field textarea {
+.field textarea,
+.field select {
   width: 100%;
   border: 1px solid #b9c1b9;
   border-radius: 0.35rem;

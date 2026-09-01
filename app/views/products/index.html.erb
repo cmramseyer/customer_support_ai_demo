@@ -18,7 +18,10 @@
         <p class="product-card__description"><%= truncate(product.description, length: 140) %></p>
         <div class="product-card__footer">
           <strong><%= number_with_precision(product.price, precision: 2) %></strong>
-          <%= link_to "View", product, class: "text-link" %>
+          <div class="product-card__actions">
+            <%= link_to "View", product, class: "text-link" %>
+            <%= render "purchase_modal", product: product, order: Order.new %>
+          </div>
         </div>
       </article>
     <% end %>

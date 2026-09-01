@@ -8,6 +8,7 @@ class ProductsController < ApplicationController
   def show
     @comments = @product.comments.includes(:user).order(:created_at)
     @comment = Comment.new
+    @order = Order.new
   end
 
   def new
@@ -36,8 +37,11 @@ class ProductsController < ApplicationController
   end
 
   def destroy
-    @product.destroy
-    redirect_to products_path, notice: "Product was deleted successfully."
+    if @product.destroy
+      redirect_to products_path, notice: "Product was deleted successfully."
+    else
+      redirect_to @product, alert: @product.errors.full_messages.to_sentence
+    end
   end
 
   private

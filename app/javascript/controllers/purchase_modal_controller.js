@@ -1,0 +1,23 @@
+import { Controller } from "@hotwired/stimulus"
+
+export default class extends Controller {
+  static targets = [ "dialog", "quantity", "trigger" ]
+  static values = { open: Boolean }
+
+  connect() {
+    if (this.openValue) this.open()
+  }
+
+  open() {
+    if (!this.dialogTarget.open) this.dialogTarget.showModal()
+    this.quantityTarget.focus()
+  }
+
+  close() {
+    this.dialogTarget.close()
+  }
+
+  closeOnBackdrop(event) {
+    if (event.target === this.dialogTarget) this.close()
+  }
+}

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_09_01_210000) do
+ActiveRecord::Schema[8.1].define(version: 2026_09_01_213000) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "vector"
@@ -47,6 +47,22 @@ ActiveRecord::Schema[8.1].define(version: 2026_09_01_210000) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "orders", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.string "payment_method", null: false
+    t.bigint "product_id", null: false
+    t.integer "quantity", null: false
+    t.integer "status", default: 0, null: false
+    t.decimal "unit_price", precision: 10, scale: 2, null: false
+    t.datetime "updated_at", null: false
+    t.bigint "user_id", null: false
+    t.index ["product_id"], name: "index_orders_on_product_id"
+    t.index ["user_id"], name: "index_orders_on_user_id"
+    t.check_constraint "payment_method::text = ANY (ARRAY['cash'::character varying, 'credit_card'::character varying, 'gift_card'::character varying]::text[])", name: "orders_payment_method_valid"
+    t.check_constraint "quantity >= 1 AND quantity <= 99", name: "orders_quantity_between_1_and_99"
+    t.check_constraint "status = ANY (ARRAY[0, 1])", name: "orders_status_valid"
+  end
+
   create_table "products", force: :cascade do |t|
     t.string "category", null: false
     t.datetime "created_at", null: false
@@ -67,4 +83,6 @@ ActiveRecord::Schema[8.1].define(version: 2026_09_01_210000) do
   add_foreign_key "comments", "products"
   add_foreign_key "comments", "users"
   add_foreign_key "knowledge_base_chunks", "knowledge_base_documents"
+  add_foreign_key "orders", "products"
+  add_foreign_key "orders", "users"
 end
