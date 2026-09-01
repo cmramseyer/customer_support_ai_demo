@@ -229,6 +229,86 @@ h2 {
   white-space: nowrap;
 }
 
+.markdown-content {
+  color: #56635b;
+  line-height: 1.6;
+}
+
+.markdown-content > :last-child {
+  margin-bottom: 0;
+}
+
+.markdown-content h1,
+.markdown-content h2,
+.markdown-content h3,
+.markdown-content h4 {
+  margin: 1.5rem 0 0.75rem;
+  color: #243a2d;
+}
+
+.markdown-content p,
+.markdown-content ul,
+.markdown-content ol,
+.markdown-content blockquote,
+.markdown-content pre,
+.markdown-content table {
+  margin: 0 0 1rem;
+}
+
+.markdown-content ul,
+.markdown-content ol {
+  padding-left: 1.5rem;
+}
+
+.markdown-content a {
+  color: #37624c;
+  font-weight: 700;
+}
+
+.markdown-content blockquote {
+  padding-left: 1rem;
+  border-left: 4px solid #a8c9ad;
+}
+
+.markdown-content code {
+  padding: 0.15rem 0.35rem;
+  border-radius: 0.25rem;
+  background: #e5f1e2;
+  color: #243a2d;
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 0.9em;
+}
+
+.markdown-content pre {
+  overflow-x: auto;
+  padding: 1rem;
+  border-radius: 0.35rem;
+  background: #243a2d;
+  color: #fff;
+}
+
+.markdown-content pre code {
+  padding: 0;
+  background: transparent;
+  color: inherit;
+}
+
+.markdown-content table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.markdown-content th,
+.markdown-content td {
+  padding: 0.6rem;
+  border: 1px solid #d9d7ce;
+  text-align: left;
+}
+
+.markdown-content th {
+  color: #243a2d;
+}
+
 .order-card__actions {
   justify-content: flex-end;
 }

@@ -20,6 +20,7 @@ gem "openai", "~> 0.66.1"
 gem "devise"
 gem "neighbor"
 gem "pundit"
+gem "commonmarker"
 
 # Use Active Model has_secure_password [https://guides.rubyonrails.org/active_model_basics.html#securepassword]
 # gem "bcrypt", "~> 3.1.7"
