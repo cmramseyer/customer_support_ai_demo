@@ -14,6 +14,8 @@ Rails.application.routes.draw do
     resources :comments, only: :create
     resources :orders, only: :create
   end
-  resources :orders, only: :index
+  resources :orders, only: :index do
+    resources :support_tickets, only: :create
+  end
   root "products#index"
 end

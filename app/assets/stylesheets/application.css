@@ -229,6 +229,10 @@ h2 {
   white-space: nowrap;
 }
 
+.order-card__actions {
+  justify-content: flex-end;
+}
+
 .product-detail__heading {
   padding-bottom: 2rem;
   border-bottom: 1px solid #d9d7ce;
@@ -353,6 +357,55 @@ h2 {
   background: #e5f1e2;
 }
 
+.support-ticket-modal {
+  width: min(32rem, calc(100% - 2rem));
+  border: 0;
+  border-radius: 0.75rem;
+  background: transparent;
+  padding: 0;
+  color: inherit;
+}
+
+.support-ticket-modal::backdrop {
+  background: rgb(23 33 29 / 0.5);
+}
+
+.support-ticket-modal__content {
+  padding: clamp(1.5rem, 5vw, 2.5rem);
+  border: 1px solid #d9d7ce;
+  border-radius: 0.75rem;
+  background: #f6f3ec;
+  box-shadow: 0 1rem 2.5rem rgb(39 53 43 / 0.2);
+}
+
+.support-ticket-modal__heading {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.support-ticket-modal__heading h2 {
+  margin-bottom: 0;
+}
+
+.support-ticket-modal__close {
+  width: 2.5rem;
+  height: 2.5rem;
+  border: 0;
+  border-radius: 50%;
+  background: transparent;
+  color: #243a2d;
+  font-size: 1.75rem;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.support-ticket-modal__close:hover {
+  background: #e5f1e2;
+}
+
 .product-form {
   margin-top: 2rem;
 }
@@ -415,9 +468,10 @@ h2 {
 
   .products-header,
   .page-actions,
-  .comments__heading,
-  .account-nav,
-  .order-card {
+   .comments__heading,
+   .account-nav,
+   .order-card,
+   .order-card__actions {
     align-items: stretch;
     flex-direction: column;
   }

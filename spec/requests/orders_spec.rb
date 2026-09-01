@@ -22,7 +22,7 @@ RSpec.describe "Orders", type: :request do
     get orders_path
 
     expect(response).to have_http_status(:ok)
-    expect(response.body).to include(own_order.product.name, "2 x 89.99 - Credit card", "Orders")
+    expect(response.body).to include(own_order.product.name, "2 x 89.99 - Credit card", "Orders", "Create Support Ticket", "name=\"support_ticket[comment]\"")
     expect(response.body).not_to include(other_product.name)
   end
 

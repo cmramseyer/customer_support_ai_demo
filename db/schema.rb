@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_09_01_213000) do
+ActiveRecord::Schema[8.1].define(version: 2026_09_01_213001) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "vector"
@@ -72,6 +72,16 @@ ActiveRecord::Schema[8.1].define(version: 2026_09_01_213000) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "support_tickets", force: :cascade do |t|
+    t.text "comment", null: false
+    t.datetime "created_at", null: false
+    t.bigint "order_id", null: false
+    t.integer "status", default: 0, null: false
+    t.datetime "updated_at", null: false
+    t.index ["order_id"], name: "index_support_tickets_on_order_id"
+    t.check_constraint "status = ANY (ARRAY[0, 1])", name: "support_tickets_status_valid"
+  end
+
   create_table "users", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.string "email", default: "", null: false
@@ -85,4 +95,5 @@ ActiveRecord::Schema[8.1].define(version: 2026_09_01_213000) do
   add_foreign_key "knowledge_base_chunks", "knowledge_base_documents"
   add_foreign_key "orders", "products"
   add_foreign_key "orders", "users"
+  add_foreign_key "support_tickets", "orders"
 end

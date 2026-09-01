@@ -19,7 +19,10 @@
             <h2><%= link_to order.product.name, order.product %></h2>
             <p class="order-card__details"><%= order.quantity %> x <%= number_with_precision(order.unit_price, precision: 2) %> - <%= order.payment_method.humanize %></p>
           </div>
-          <time datetime="<%= order.created_at.iso8601 %>"><%= order.created_at.strftime("%m/%d/%y %H:%M") %></time>
+          <div class="order-card__actions">
+            <time datetime="<%= order.created_at.iso8601 %>"><%= order.created_at.strftime("%m/%d/%y %H:%M") %></time>
+            <%= render "support_tickets/modal", order: order %>
+          </div>
         </article>
       <% end %>
     </div>

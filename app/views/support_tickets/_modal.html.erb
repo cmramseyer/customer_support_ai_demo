@@ -1,0 +1,29 @@
+<div data-controller="support-ticket-modal">
+  <button type="button" class="button button--secondary" data-support-ticket-modal-target="trigger" data-action="support-ticket-modal#open">Create Support Ticket</button>
+
+  <dialog class="support-ticket-modal" aria-labelledby="support-ticket-modal-heading-<%= order.id %>" data-support-ticket-modal-target="dialog" data-action="click->support-ticket-modal#closeOnBackdrop">
+    <div class="support-ticket-modal__content">
+      <div class="support-ticket-modal__heading">
+        <div>
+          <p class="eyebrow">Support</p>
+          <h2 id="support-ticket-modal-heading-<%= order.id %>">Create Support Ticket</h2>
+        </div>
+        <button type="button" class="support-ticket-modal__close" aria-label="Close support ticket dialog" data-action="support-ticket-modal#close">&times;</button>
+      </div>
+
+      <%= form_with model: [order, SupportTicket.new], class: "support-ticket-form", data: { support_ticket_modal_target: "form", action: "submit->support-ticket-modal#submit" } do |form| %>
+        <section class="form-errors" hidden data-support-ticket-modal-target="errors" aria-live="polite"></section>
+
+        <div class="field">
+          <%= form.label :comment %>
+          <%= form.text_area :comment, required: true, rows: 5, data: { support_ticket_modal_target: "comment" } %>
+        </div>
+
+        <div class="page-actions">
+          <button type="button" class="button button--secondary" data-action="support-ticket-modal#close">Cancel</button>
+          <%= form.submit "Create", class: "button", data: { support_ticket_modal_target: "submitButton" } %>
+        </div>
+      <% end %>
+    </div>
+  </dialog>
+</div>
