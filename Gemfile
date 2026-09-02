@@ -19,6 +19,7 @@ gem "jbuilder"
 gem "openai", "~> 0.66.1"
 gem "devise"
 gem "neighbor"
+gem "tiktoken_ruby"
 gem "pundit"
 gem "commonmarker"
 

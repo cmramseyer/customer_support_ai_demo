@@ -17,6 +17,7 @@ class KnowledgeBaseDocumentsController < ApplicationController
     authorize @knowledge_base_document
 
     if @knowledge_base_document.save
+      IndexKnowledgeBaseDocumentJob.perform_later(@knowledge_base_document.id)
       redirect_to knowledge_base_documents_path, notice: "Knowledge base document was created successfully."
     else
       render :new, status: :unprocessable_entity

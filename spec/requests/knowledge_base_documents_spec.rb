@@ -1,6 +1,8 @@
 require "rails_helper"
 
 RSpec.describe "KnowledgeBaseDocuments", type: :request do
+  include ActiveJob::TestHelper
+
   let(:user) { User.create!(email: "user@example.com", password: "password", password_confirmation: "password") }
   let(:admin) { User.create!(email: "admin@example.com", password: "password", password_confirmation: "password", is_admin: true) }
 
@@ -22,6 +24,7 @@ RSpec.describe "KnowledgeBaseDocuments", type: :request do
     expect do
       post knowledge_base_documents_path, params: { knowledge_base_document: { title: "Refund policy", content: "Refunds are available within 30 days." } }
     end.to change(KnowledgeBaseDocument, :count).by(1)
+      .and have_enqueued_job(IndexKnowledgeBaseDocumentJob)
 
     document = KnowledgeBaseDocument.last
     expect(response).to redirect_to(knowledge_base_documents_path)
