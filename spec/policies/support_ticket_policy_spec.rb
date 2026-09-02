@@ -17,4 +17,9 @@ RSpec.describe SupportTicketPolicy do
     expect(described_class.new(owner, support_ticket).create?).to be(true)
     expect(described_class.new(other_user, support_ticket).create?).to be(false)
   end
+
+  it "allows only administrators to view a support ticket" do
+    expect(described_class.new(admin, support_ticket).show?).to be(true)
+    expect(described_class.new(owner, support_ticket).show?).to be(false)
+  end
 end

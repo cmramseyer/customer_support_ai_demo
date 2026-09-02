@@ -23,4 +23,20 @@ RSpec.describe SupportTicket do
 
     expect(support_ticket).to be_closed
   end
+
+  it "supports an optional priority" do
+    expect(support_ticket.priority).to be_nil
+    expect(support_ticket).to be_valid
+
+    support_ticket.priority = :high
+    expect(support_ticket).to be_valid
+    expect(support_ticket).to be_high
+  end
+
+  it "persists related ticket IDs" do
+    support_ticket.related_tickets = [ 12, 34 ]
+    support_ticket.save!
+
+    expect(support_ticket.reload.related_tickets).to eq([ 12, 34 ])
+  end
 end

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_09_01_213003) do
+ActiveRecord::Schema[8.1].define(version: 2026_09_01_213004) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "vector"
@@ -74,12 +74,20 @@ ActiveRecord::Schema[8.1].define(version: 2026_09_01_213003) do
   end
 
   create_table "support_tickets", force: :cascade do |t|
+    t.string "category"
     t.text "comment", null: false
     t.datetime "created_at", null: false
     t.bigint "order_id", null: false
+    t.integer "priority"
+    t.string "problem"
+    t.string "recommended_action"
+    t.string "recommended_response"
+    t.integer "related_tickets", default: [], null: false, array: true
+    t.string "sentiment"
     t.integer "status", default: 0, null: false
     t.datetime "updated_at", null: false
     t.index ["order_id"], name: "index_support_tickets_on_order_id"
+    t.check_constraint "(priority = ANY (ARRAY[0, 1, 2])) OR priority IS NULL", name: "support_tickets_priority_valid"
     t.check_constraint "status = ANY (ARRAY[0, 1])", name: "support_tickets_status_valid"
   end
 

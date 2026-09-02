@@ -313,6 +313,52 @@ h2 {
   justify-content: flex-end;
 }
 
+.support-ticket-detail {
+  padding: clamp(1.5rem, 5vw, 3rem);
+  border: 1px solid #d9d7ce;
+  border-radius: 0.75rem;
+  background: rgb(255 255 255 / 0.78);
+  box-shadow: 0 1rem 2.5rem rgb(39 53 43 / 0.08);
+}
+
+.support-ticket-detail__comment {
+  color: #39443d;
+  line-height: 1.6;
+}
+
+.support-ticket-detail__analysis {
+  margin-top: 2rem;
+  padding-top: 2rem;
+  border-top: 1px solid #d9d7ce;
+}
+
+.support-ticket-detail__analysis dl {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+  margin: 1.5rem 0 0;
+}
+
+.support-ticket-detail__analysis dl div {
+  padding: 1rem;
+  border-radius: 0.35rem;
+  background: #fff;
+}
+
+.support-ticket-detail__analysis dt {
+  margin-bottom: 0.35rem;
+  color: #37624c;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.support-ticket-detail__analysis dd {
+  margin: 0;
+  color: #39443d;
+}
+
 .product-detail__heading {
   padding-bottom: 2rem;
   border-bottom: 1px solid #d9d7ce;
@@ -557,6 +603,10 @@ h2 {
   }
 
   .form-row {
+    grid-template-columns: 1fr;
+  }
+
+  .support-ticket-detail__analysis dl {
     grid-template-columns: 1fr;
   }
 }

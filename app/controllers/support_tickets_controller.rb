@@ -8,6 +8,11 @@ class SupportTicketsController < ApplicationController
     @support_tickets = policy_scope(SupportTicket).includes(:order).order(created_at: :desc)
   end
 
+  def show
+    @support_ticket = SupportTicket.find(params[:id])
+    authorize @support_ticket
+  end
+
   def create
     @support_ticket = @order.support_tickets.build(support_ticket_params)
     authorize @support_ticket

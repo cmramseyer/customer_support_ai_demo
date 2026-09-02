@@ -50,12 +50,33 @@ RSpec.describe "SupportTickets", type: :request do
     expect(response).to have_http_status(:ok)
     expect(response.body).to include("Ticket ##{own_ticket.id}", "Order ##{order.id}", own_ticket.comment, own_ticket.status.humanize)
     expect(response.body).to include("Ticket ##{other_ticket.id}", "Order ##{other_order.id}", other_ticket.comment, other_ticket.status.humanize)
+    expect(response.body).to include("href=\"/support_tickets/#{own_ticket.id}\"", "href=\"/support_tickets/#{other_ticket.id}\"")
     expect(response.body).to include(">Support Tickets</a>")
     expect(response.body).not_to include(">Orders</a>")
   end
 
   it "prevents regular users from viewing support tickets" do
     get support_tickets_path
+
+    expect(response).to redirect_to(products_path)
+    expect(flash[:alert]).to eq("You are not authorized to perform this action.")
+  end
+
+  it "allows an administrator to view ticket analysis fields" do
+    support_ticket = SupportTicket.create!(order: order, comment: "The headset will not connect.")
+    admin = User.create!(email: "admin@example.com", password: "password", password_confirmation: "password", is_admin: true)
+
+    sign_in(admin)
+    get support_ticket_path(support_ticket)
+
+    expect(response).to have_http_status(:ok)
+    expect(response.body).to include(support_ticket.comment, "Priority", "Problem", "Category", "Related tickets", "Recommended action", "Recommended response", "Sentiment", "Not available", "None")
+  end
+
+  it "prevents regular users from viewing a support ticket" do
+    support_ticket = SupportTicket.create!(order: order, comment: "The headset will not connect.")
+
+    get support_ticket_path(support_ticket)
 
     expect(response).to redirect_to(products_path)
     expect(flash[:alert]).to eq("You are not authorized to perform this action.")

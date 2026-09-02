@@ -1,0 +1,55 @@
+<% content_for :title, "Support Ticket ##{@support_ticket.id}" %>
+
+<section class="orders-page">
+  <div class="products-header">
+    <div>
+      <p class="eyebrow">Support Ticket #<%= @support_ticket.id %></p>
+      <h1>Order #<%= @support_ticket.order_id %></h1>
+      <p class="lede"><%= @support_ticket.status.humanize %></p>
+    </div>
+    <%= link_to "Back to tickets", support_tickets_path, class: "button button--secondary" %>
+  </div>
+
+  <article class="support-ticket-detail">
+    <section>
+      <p class="eyebrow">Customer comment</p>
+      <p class="support-ticket-detail__comment"><%= @support_ticket.comment %></p>
+    </section>
+
+    <section class="support-ticket-detail__analysis" aria-labelledby="ticket-analysis-heading">
+      <p class="eyebrow">Analysis</p>
+      <h2 id="ticket-analysis-heading">Ticket details</h2>
+
+      <dl>
+        <div>
+          <dt>Priority</dt>
+          <dd><%= @support_ticket.priority&.humanize || "Not available" %></dd>
+        </div>
+        <div>
+          <dt>Problem</dt>
+          <dd><%= @support_ticket.problem.presence || "Not available" %></dd>
+        </div>
+        <div>
+          <dt>Category</dt>
+          <dd><%= @support_ticket.category.presence || "Not available" %></dd>
+        </div>
+        <div>
+          <dt>Related tickets</dt>
+          <dd><%= @support_ticket.related_tickets.any? ? @support_ticket.related_tickets.join(", ") : "None" %></dd>
+        </div>
+        <div>
+          <dt>Recommended action</dt>
+          <dd><%= @support_ticket.recommended_action.presence || "Not available" %></dd>
+        </div>
+        <div>
+          <dt>Recommended response</dt>
+          <dd><%= @support_ticket.recommended_response.presence || "Not available" %></dd>
+        </div>
+        <div>
+          <dt>Sentiment</dt>
+          <dd><%= @support_ticket.sentiment.presence || "Not available" %></dd>
+        </div>
+      </dl>
+    </section>
+  </article>
+</section>
