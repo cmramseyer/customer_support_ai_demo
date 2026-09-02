@@ -27,7 +27,7 @@ export default class extends Controller {
         return
       }
 
-      this.listTarget.insertAdjacentHTML("beforeend", payload.html)
+      if (payload.html) this.listTarget.insertAdjacentHTML("beforeend", payload.html)
       this.formTarget.reset()
       this.bodyTarget.focus()
     } catch {

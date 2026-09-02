@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_09_01_213005) do
+ActiveRecord::Schema[8.1].define(version: 2026_09_02_100000) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "vector"
@@ -19,11 +19,13 @@ ActiveRecord::Schema[8.1].define(version: 2026_09_01_213005) do
     t.text "body", null: false
     t.datetime "created_at", null: false
     t.bigint "product_id", null: false
+    t.integer "status", default: 0, null: false
     t.datetime "updated_at", null: false
     t.bigint "user_id", null: false
     t.index ["product_id", "created_at"], name: "index_comments_on_product_id_and_created_at"
     t.index ["product_id"], name: "index_comments_on_product_id"
     t.index ["user_id"], name: "index_comments_on_user_id"
+    t.check_constraint "status = ANY (ARRAY[0, 1, 2])", name: "comments_status_valid"
   end
 
   create_table "knowledge_base_chunks", force: :cascade do |t|
@@ -59,7 +61,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_09_01_213005) do
     t.bigint "user_id", null: false
     t.index ["product_id"], name: "index_orders_on_product_id"
     t.index ["user_id"], name: "index_orders_on_user_id"
-    t.check_constraint "payment_method::text = ANY (ARRAY['cash'::character varying::text, 'credit_card'::character varying::text, 'gift_card'::character varying::text])", name: "orders_payment_method_valid"
+    t.check_constraint "payment_method::text = ANY (ARRAY['cash'::character varying, 'credit_card'::character varying, 'gift_card'::character varying]::text[])", name: "orders_payment_method_valid"
     t.check_constraint "quantity >= 1 AND quantity <= 99", name: "orders_quantity_between_1_and_99"
     t.check_constraint "status = ANY (ARRAY[0, 1])", name: "orders_status_valid"
   end
@@ -99,8 +101,10 @@ ActiveRecord::Schema[8.1].define(version: 2026_09_01_213005) do
     t.string "email", default: "", null: false
     t.string "encrypted_password", default: "", null: false
     t.boolean "is_admin", default: false, null: false
+    t.integer "moderated_comments_count", default: 0, null: false
     t.datetime "updated_at", null: false
     t.index ["email"], name: "index_users_on_email", unique: true
+    t.check_constraint "moderated_comments_count >= 0", name: "users_moderated_comments_count_nonnegative"
   end
 
   add_foreign_key "comments", "products"

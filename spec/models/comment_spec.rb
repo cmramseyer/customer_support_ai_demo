@@ -13,6 +13,13 @@ RSpec.describe Comment do
     expect(comment).to be_valid
   end
 
+  it "defaults to pending review and enqueues moderation after creation" do
+    expect { comment.save! }
+      .to have_enqueued_job(ModerateCommentJob).with(comment.id)
+
+    expect(comment).to be_pending_review
+  end
+
   it "requires a body" do
     comment.body = ""
 

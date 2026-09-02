@@ -11,7 +11,7 @@ class OrdersController < ApplicationController
     if @order.save
       redirect_to @product, notice: "Order was created successfully."
     else
-      @comments = @product.comments.includes(:user).order(:created_at)
+      @comments = @product.comments.approved.includes(:user).order(:created_at)
       @comment = Comment.new
       render "products/show", status: :unprocessable_entity
     end

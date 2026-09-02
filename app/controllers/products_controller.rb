@@ -6,7 +6,7 @@ class ProductsController < ApplicationController
   end
 
   def show
-    @comments = @product.comments.includes(:user).order(:created_at)
+    @comments = @product.comments.approved.includes(:user).order(:created_at)
     @comment = Comment.new
     @order = Order.new
   end
