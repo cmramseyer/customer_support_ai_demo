@@ -1,6 +1,8 @@
 require "rails_helper"
 
 RSpec.describe "SupportTickets", type: :request do
+  include ActiveJob::TestHelper
+
   let(:user) { User.create!(email: "user@example.com", password: "password", password_confirmation: "password") }
   let(:product) { Product.create!(name: "Wireless headset", description: "Noise-cancelling headset.", price: 89.99, category: "Accessories") }
   let(:order) { Order.create!(product: product, user: user, quantity: 2, payment_method: :credit_card, unit_price: product.price) }
@@ -15,6 +17,7 @@ RSpec.describe "SupportTickets", type: :request do
     support_ticket = SupportTicket.last
     expect(response).to have_http_status(:created)
     expect(support_ticket).to have_attributes(order: order, comment: "The headset will not connect.", status: "active")
+    expect(enqueued_jobs).to include(hash_including(job: AnalyzeSupportTicketJob, args: [ support_ticket.id ]))
   end
 
   it "returns validation errors without creating a support ticket" do

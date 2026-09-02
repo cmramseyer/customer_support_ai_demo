@@ -34,6 +34,7 @@ class SupportTicketsController < ApplicationController
     authorize @support_ticket
 
     if @support_ticket.save
+      AnalyzeSupportTicketJob.perform_later(@support_ticket.id)
       respond_to do |format|
         format.html { redirect_to orders_path, notice: "Support ticket was created successfully." }
         format.json { head :created }
