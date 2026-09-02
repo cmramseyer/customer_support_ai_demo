@@ -19,9 +19,17 @@ RSpec.describe SupportTicket do
   end
 
   it "supports active and closed statuses" do
+    support_ticket.resolution_response = "A replacement headset has been shipped."
     support_ticket.closed!
 
     expect(support_ticket).to be_closed
+  end
+
+  it "requires a resolution response when closed" do
+    support_ticket.status = :closed
+
+    expect(support_ticket).not_to be_valid
+    expect(support_ticket.errors[:resolution_response]).to include("can't be blank")
   end
 
   it "supports an optional priority" do

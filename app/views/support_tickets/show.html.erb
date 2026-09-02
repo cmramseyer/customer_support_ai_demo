@@ -49,7 +49,41 @@
           <dt>Sentiment</dt>
           <dd><%= @support_ticket.sentiment.presence || "Not available" %></dd>
         </div>
+        <div>
+          <dt>Resolution response</dt>
+          <dd><%= @support_ticket.resolution_response.presence || "Not available" %></dd>
+        </div>
+        <div>
+          <dt>Closed by</dt>
+          <dd><%= @support_ticket.closed_by_user&.email || "Not available" %></dd>
+        </div>
       </dl>
+    </section>
+
+    <section class="support-ticket-detail__resolution" aria-labelledby="ticket-resolution-heading">
+      <% if @support_ticket.active? %>
+        <p class="eyebrow">Resolution</p>
+        <h2 id="ticket-resolution-heading">Close with response</h2>
+
+        <%= form_with model: @support_ticket, url: close_support_ticket_path(@support_ticket), method: :patch, class: "product-form" do |form| %>
+          <% if @support_ticket.errors.any? %>
+            <section class="form-errors" aria-labelledby="resolution-error-heading">
+              <h3 id="resolution-error-heading"><%= @support_ticket.errors.full_messages.to_sentence %></h3>
+            </section>
+          <% end %>
+
+          <div class="field">
+            <%= form.label :resolution_response %>
+            <%= form.text_field :resolution_response, required: true %>
+          </div>
+
+          <%= form.submit "Close With Response", class: "button" %>
+        <% end %>
+      <% else %>
+        <p class="eyebrow">Resolution</p>
+        <h2 id="ticket-resolution-heading">Closed response</h2>
+        <p class="support-ticket-detail__comment"><%= @support_ticket.resolution_response %></p>
+      <% end %>
     </section>
   </article>
 </section>

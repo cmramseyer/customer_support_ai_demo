@@ -15,9 +15,13 @@ Rails.application.routes.draw do
     resources :orders, only: :create
   end
   resources :orders, only: :index do
-    resources :support_tickets, only: :create
+    resources :support_tickets, only: :create do
+      get :resolution, on: :member
+    end
   end
-  resources :support_tickets, only: %i[index show]
+  resources :support_tickets, only: %i[index show] do
+    patch :close, on: :member
+  end
   resources :knowledge_base_documents, only: %i[index new create]
   root "products#index"
 end

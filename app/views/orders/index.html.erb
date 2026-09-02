@@ -13,6 +13,7 @@
   <% if @orders.any? %>
     <div class="orders-list">
       <% @orders.each do |order| %>
+        <% closed_ticket = order.support_tickets.select(&:closed?).max_by(&:updated_at) %>
         <article class="order-card">
           <div>
             <p class="eyebrow"><%= order.status.humanize %></p>
@@ -22,6 +23,9 @@
           <div class="order-card__actions">
             <time datetime="<%= order.created_at.iso8601 %>"><%= order.created_at.strftime("%m/%d/%y %H:%M") %></time>
             <%= render "support_tickets/modal", order: order %>
+            <% if closed_ticket %>
+              <%= link_to "View Resolution", resolution_order_support_ticket_path(order, closed_ticket), class: "button button--secondary" %>
+            <% end %>
           </div>
         </article>
       <% end %>

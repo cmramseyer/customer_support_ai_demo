@@ -81,4 +81,36 @@ RSpec.describe "SupportTickets", type: :request do
     expect(response).to redirect_to(products_path)
     expect(flash[:alert]).to eq("You are not authorized to perform this action.")
   end
+
+  it "allows an administrator to close a ticket with a response" do
+    support_ticket = SupportTicket.create!(order: order, comment: "The headset will not connect.")
+    admin = User.create!(email: "admin@example.com", password: "password", password_confirmation: "password", is_admin: true)
+
+    sign_in(admin)
+    patch close_support_ticket_path(support_ticket), params: { support_ticket: { resolution_response: "A replacement headset has been shipped." } }
+
+    expect(response).to redirect_to(support_ticket)
+    expect(support_ticket.reload).to have_attributes(status: "closed", resolution_response: "A replacement headset has been shipped.", closed_by_user: admin)
+  end
+
+  it "does not close a ticket without a response" do
+    support_ticket = SupportTicket.create!(order: order, comment: "The headset will not connect.")
+    admin = User.create!(email: "admin@example.com", password: "password", password_confirmation: "password", is_admin: true)
+
+    sign_in(admin)
+    patch close_support_ticket_path(support_ticket), params: { support_ticket: { resolution_response: "" } }
+
+    expect(response).to have_http_status(:unprocessable_entity)
+    expect(support_ticket.reload).to be_active
+  end
+
+  it "allows an order owner to view a closed ticket resolution" do
+    admin = User.create!(email: "admin@example.com", password: "password", password_confirmation: "password", is_admin: true)
+    support_ticket = SupportTicket.create!(order: order, comment: "The headset will not connect.", status: :closed, resolution_response: "A replacement headset has been shipped.", closed_by_user: admin)
+
+    get resolution_order_support_ticket_path(order, support_ticket)
+
+    expect(response).to have_http_status(:ok)
+    expect(response.body).to include(support_ticket.comment, support_ticket.resolution_response)
+  end
 end

@@ -1,0 +1,24 @@
+<% content_for :title, "Resolution for Ticket ##{@support_ticket.id}" %>
+
+<section class="orders-page">
+  <div class="products-header">
+    <div>
+      <p class="eyebrow">Support Ticket #<%= @support_ticket.id %></p>
+      <h1>Resolution</h1>
+      <p class="lede">Order #<%= @order.id %></p>
+    </div>
+    <%= link_to "Back to orders", orders_path, class: "button button--secondary" %>
+  </div>
+
+  <article class="support-ticket-detail">
+    <section>
+      <p class="eyebrow">Original request</p>
+      <p class="support-ticket-detail__comment"><%= @support_ticket.comment %></p>
+    </section>
+
+    <section class="support-ticket-detail__resolution">
+      <p class="eyebrow">Resolution response</p>
+      <p class="support-ticket-detail__comment"><%= @support_ticket.resolution_response %></p>
+    </section>
+  </article>
+</section>

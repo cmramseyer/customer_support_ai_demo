@@ -2,7 +2,7 @@ class OrdersController < ApplicationController
   before_action :set_product, only: :create
 
   def index
-    @orders = current_user.orders.includes(:product).order(created_at: :desc)
+    @orders = current_user.orders.includes(:product, :support_tickets).order(created_at: :desc)
   end
 
   def create

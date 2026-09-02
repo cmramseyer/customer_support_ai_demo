@@ -11,6 +11,14 @@ class SupportTicketPolicy < ApplicationPolicy
     user&.is_admin?
   end
 
+  def close?
+    user&.is_admin? && record.active?
+  end
+
+  def resolution?
+    user.present? && record.order.user_id == user.id
+  end
+
   class Scope < Scope
     def resolve
       user&.is_admin? ? scope.all : scope.none

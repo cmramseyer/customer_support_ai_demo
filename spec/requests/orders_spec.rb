@@ -33,6 +33,18 @@ RSpec.describe "Orders", type: :request do
     expect(response.body).to include("No orders yet", "Your purchases will appear here")
   end
 
+  it "shows the latest closed ticket resolution for an order" do
+    order = Order.create!(product: product, user: user, quantity: 1, payment_method: :cash, unit_price: product.price)
+    admin = User.create!(email: "admin@example.com", password: "password", password_confirmation: "password", is_admin: true)
+    previous_ticket = SupportTicket.create!(order: order, comment: "The headset will not connect.", status: :closed, resolution_response: "A replacement headset has been shipped.", closed_by_user: admin)
+    latest_ticket = SupportTicket.create!(order: order, comment: "The replacement never arrived.", status: :closed, resolution_response: "A refund has been issued.", closed_by_user: admin)
+
+    get orders_path
+
+    expect(response.body).to include("View Resolution", "href=\"/orders/#{order.id}/support_tickets/#{latest_ticket.id}/resolution\"")
+    expect(response.body).not_to include("href=\"/orders/#{order.id}/support_tickets/#{previous_ticket.id}/resolution\"")
+  end
+
   it "shows an Orders link in the authenticated navigation" do
     get products_path
 
