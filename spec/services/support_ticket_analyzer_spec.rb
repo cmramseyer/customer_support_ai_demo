@@ -18,7 +18,7 @@ RSpec.describe SupportTicketAnalyzer do
   it "sends the ticket and retrieved sources to gpt-5-nano" do
     analysis = {
       priority: "low",
-      category: "returns",
+      category: "information_request",
       problem: "return request",
       recommended_action: "Explain the return policy.",
       recommended_response: "You can return the headset within 30 days.",
@@ -33,6 +33,23 @@ RSpec.describe SupportTicketAnalyzer do
       input: array_including(hash_including(content: include(ticket.comment)), hash_including(content: include(chunk.content)))
     ))
     expect(result).to eq(analysis.stringify_keys)
+  end
+
+  it "limits categories to the support taxonomy" do
+    expect(described_class::RESPONSE_SCHEMA.dig(:properties, :category, :enum)).to eq(%w[
+      information_request
+      technical_issue
+      repair_request
+      warranty_claim
+      return_request
+      refund_request
+      replacement_request
+      complaint_escalation
+      shipping_delivery_issue
+      billing_payment_issue
+      accessory_component_issue
+      other_unclassified
+    ])
   end
 
   it "rejects a non-JSON response" do

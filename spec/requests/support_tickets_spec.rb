@@ -58,6 +58,19 @@ RSpec.describe "SupportTickets", type: :request do
     expect(response.body).not_to include(">Orders</a>")
   end
 
+  it "marks tickets closed by AI without marking manually closed tickets" do
+    ai_ticket = SupportTicket.create!(order: order, comment: "Where is the return policy?", status: :closed, resolution_response: "The policy is available in your account.")
+    admin = User.create!(email: "admin@example.com", password: "password", password_confirmation: "password", is_admin: true)
+    SupportTicket.create!(order: order, comment: "My headset is broken.", status: :closed, resolution_response: "A replacement is on the way.", closed_by_user: admin)
+
+    sign_in(admin)
+    get support_tickets_path
+
+    expect(response).to have_http_status(:ok)
+    expect(response.body.scan('aria-label="Closed by AI"')).to have_attributes(size: 1)
+    expect(response.body).to include("Ticket ##{ai_ticket.id}")
+  end
+
   it "prevents regular users from viewing support tickets" do
     get support_tickets_path
 

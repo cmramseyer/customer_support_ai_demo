@@ -19,7 +19,12 @@
             <p class="order-card__details"><%= support_ticket.comment %></p>
           </div>
           <div class="order-card__actions">
-            <p class="order-card__details"><%= support_ticket.status.humanize %></p>
+            <p class="order-card__details">
+              <%= support_ticket.status.humanize %>
+              <% if support_ticket.closed? && support_ticket.closed_by_user_id.nil? %>
+                <span aria-label="Closed by AI" title="Closed by AI">🤖</span>
+              <% end %>
+            </p>
             <%= link_to "View", support_ticket_path(support_ticket), class: "button button--secondary" %>
           </div>
         </article>
